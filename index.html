@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARDANCE CLICKER - Ultimate Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>⭐ STARDANCE CLICKER ⭐</h1>
+            <div class="career-display">
+                <span id="career-name">Tanzzimmer</span>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="game-area">
+            <!-- Stats Panel -->
+            <div class="stats-panel">
+                <div class="stat-row">
+                    <span class="stat-label">💰 Sterne:</span>
+                    <span id="score" class="stat-value">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">⚡ Pro Sekunde:</span>
+                    <span id="cps" class="stat-value">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">🎭 Karriere:</span>
+                    <span id="career-level" class="stat-value">Lvl 1</span>
+                </div>
+            </div>
+
+            <!-- Combo Counter -->
+            <div id="combo-display" style="position: absolute; top: 80px; font-size: 2rem; font-weight: bold; color: var(--accent-gold); text-shadow: 0 0 15px rgba(255, 215, 0, 0.8); opacity: 0; transition: opacity 0.2s;">
+                🔥 Combo: <span id="combo-count">0</span>
+            </div>
+
+            <!-- Main Click Button -->
+            <div class="button-container">
+                <button id="click-btn" class="click-btn" title="Klick für Sterne! (Shortcut: SPACE)">
+                    <span class="btn-text">TAP</span>
+                </button>
+                <div id="particles-container" class="particles-container"></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button id="auto-clicker-toggle" class="quick-btn auto-btn" title="Automatisches Klicken (Shortcut: A)">🤖 Auto: OFF</button>
+                <button id="stats-toggle" class="quick-btn stats-btn" title="Statistiken anzeigen (Shortcut: S)">📊 Stats</button>
+                <button id="shop-toggle" class="quick-btn shop-btn" title="Shop öffnen (Shortcut: P)">🛍️ Shop</button>
+            </div>
+        </main>
+
+        <!-- Stats Modal -->
+        <div id="stats-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📊 Statistiken</h2>
+                    <button class="close-btn" onclick="closeModal('stats-modal')">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="stat-item">
+                        <span>Gesamt gesammelt:</span>
+                        <span id="total-earned">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Gesamt Klicks:</span>
+                        <span id="total-clicks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Spielzeit:</span>
+                        <span id="playtime">0s</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Karrieren:</span>
+                        <span id="rebirth-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Max Combo:</span>
+                        <span id="max-combo">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Achievements:</span>
+                        <span id="achievement-count">0</span>
+                    </div>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 217, 255, 0.2);">
+                        <h4 style="color: var(--accent-gold); margin-bottom: 10px;">🏆 Achievements:</h4>
+                        <div id="achievements-list" style="display: grid; grid-template-columns: 1fr; gap: 5px; font-size: 0.85rem;"></div>
+                    </div>
+                    <button id="reset-btn" class="danger-btn">🔄 Daten löschen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shop Modal -->
+        <div id="shop-modal" class="modal hidden">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2>🛍️ Upgrades & Shop</h2>
+                    <button class="close-btn" onclick="closeModal('shop-modal')">✕</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Upgrades Section -->
+                    <div class="shop-section">
+                        <h3>⚡ Klickraft Upgrades</h3>
+                        <button id="upgrade-btn" class="shop-item upgrade-item">
+                            <div class="item-header">Klickraft steigern +15%</div>
+                            <div class="item-cost" id="upgrade-cost">💰 100</div>
+                            <div class="item-count">Gekauft: <span id="upgrade-count">0</span></div>
+                        </button>
+                    </div>
+
+                    <!-- Passive Income -->
+                    <div class="shop-section">
+                        <h3>🏢 Passive Einnahmen</h3>
+                        <button id="office-btn" class="shop-item passive-item">
+                            <div class="item-header">Tanzbüro eröffnen</div>
+                            <div class="item-cost" id="office-cost">💰 25</div>
+                            <div class="item-count">Besitzt: <span id="office-count">0</span></div>
+                            <div class="item-bonus">+1.5 ⚡/sec pro Büro</div>
+                        </button>
+                    </div>
+
+                    <!-- Skin Shop -->
+                    <div class="shop-section">
+                        <h3>🎨 Button Skins (10 verfügbar!)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-gray); margin-bottom: 10px;">Skins werden durch Achievements freigeschaltet!</p>
+                        <div class="skins-grid" id="skins-grid"></div>
+                    </div>
+
+                    <!-- Rebirth Section -->
+                    <div class="shop-section rebirth-section">
+                        <h3>🎭 Tanz-Karriere (Rebirth)</h3>
+                        <p class="rebirth-desc">Starten Sie eine neue Karriere und erhalten Sie einen permanenten +25% Multiplikator auf ALLE Einnahmen! Alles wird resetet aber die Boni bleiben!</p>
+                        <button id="rebirth-btn" class="rebirth-item">
+                            <div class="rebirth-header">Nächste Karriere starten</div>
+                            <div class="rebirth-cost" id="rebirth-cost">💰 100.000</div>
+                            <div class="rebirth-mult">Aktueller Multiplikator: <span id="rebirth-mult">×1.0</span></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🎭 STARDANCE CLICKER ULTIMATE ⭐ | Auto-Save: <span id="autosave-indicator">✓</span> | Tipps: Drücke S für Stats, P für Shop, SPACE zum Klicken!</p>
+        </footer>
+    </div>
+
+    <!-- Floating Damage Numbers Container -->
+    <div id="floating-numbers" class="floating-numbers-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -9,6 +9,4 @@ Welcome to **Stardance Clicker**, a feature-rich, highly addictive incremental i
 *   **Custom Button Skins:** Personalize your gameplay with **10 unlockable visual skins** for your main clicking button.
 *   **Pro Keyboard Shortcuts:** Play faster using optimized hotkeys (**S** for Statistics, **P** for Shop, and **Spacebar** to click!).
 
-## 🌐 Live Demo
-Play the game live in your browser here: [https://github.io](https://github.io)
 
